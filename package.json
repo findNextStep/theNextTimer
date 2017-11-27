@@ -1,7 +1,7 @@
 {
     "name": "the-next-svg-client",
     "version": "0.0.1",
-    "main": "main.js",
+    "main": "./ts_out/main.js",
     "author": {
       "name": "the_next",
       "email": "543584502@qq.com"

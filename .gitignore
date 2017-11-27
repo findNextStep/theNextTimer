@@ -4,3 +4,4 @@ ts_out
 *.7z
 *.zip
 test*
+npm-debug.log

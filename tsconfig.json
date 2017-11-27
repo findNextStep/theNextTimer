@@ -5,16 +5,8 @@
       "declaration":true,
       "outDir": "./ts_out",
       "removeComments": true,
-      "strictNullChecks": false,
-      "alwaysStrict": false,
-      "moduleResolution":"node",
-      // "outFile":"outfile.js",
-      "noImplicitUseStrict":true
-      // "isolatedModules":true,
+      "moduleResolution":"node"
     },
-    "files": [
-      "./ts/color.ts"
-  ],
     "include": ["ts/*"],
     "exclude": ["node_modules", "**/*.spec.ts"]
   }
