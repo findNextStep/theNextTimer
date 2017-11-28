@@ -7,7 +7,7 @@
       "removeComments": true,
       "moduleResolution":"node"
     },
-    "include": ["ts/*"],
+    "include": ["ts/*","ts/**/*"],
     "exclude": ["node_modules", "**/*.spec.ts"]
   }
   

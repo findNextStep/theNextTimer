@@ -1,5 +1,6 @@
 import { app, BrowserWindow, globalShortcut, ipcMain } from "electron";
-
+import {configReader} from "./main/configReader"
+let some = new configReader();
 var main_window: BrowserWindow = null;
 /**
  * make the main window close
