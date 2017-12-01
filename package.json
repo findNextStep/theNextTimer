@@ -12,13 +12,18 @@
     "scripts": {
       "start": "node_modules/.bin/electron ."
     },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/findNextStep/theNextTimer.git"
+    },
     "description": "a easy timer made by electron",
     "private": true,
-    "license": "BSD",
+    "license": "MIT",
     "dependencies": {
       "typescript":"^2.1.0",
       "require":"^2.4.20",
       "fs": "0.0.1-security",
+      "path":"^0.12.7",
       "electron":"^1.7.9"
     }
   }
