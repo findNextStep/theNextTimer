@@ -1,4 +1,4 @@
-import { BrowserWindow, globalShortcut } from "electron";
+import { BrowserWindow, globalShortcut, webContents } from "electron";
 /**
  * 基本的electron窗口封装，统一使用透明无
  * 边界的窗口，统一管理窗口组
@@ -11,19 +11,19 @@ import { BrowserWindow, globalShortcut } from "electron";
  * @abstract
  * @class theNextToolsBase
  */
-export abstract class theNextToolsBase {
-  protected main_window: BrowserWindow;
-  private short_cut: { [key: string]: () => void };
+export abstract class TheNextToolsBase {
+  protected mainWindow: BrowserWindow;
+  private shortCut: { [key: string]: () => void };
   /**
    * 创建一个简单的the_next工具窗口
    * Creates an instance of theNextToolsBase.
    * @memberof theNextToolsBase
    */
   constructor() {
-    this.short_cut = {};
+    this.shortCut = {};
     // 窗口的简单设置
     // simple setting about the main window
-    this.main_window = new BrowserWindow({
+    this.mainWindow = new BrowserWindow({
       // 使窗口透明化
       // make background transparent
       backgroundColor: "#0000",
@@ -37,34 +37,54 @@ export abstract class theNextToolsBase {
     // 使窗口快捷键只能在窗口获得焦点时生效
     // make the short cut work only when the window
     // is focused
-    this.main_window.on("blur", () => {
-      let win = BrowserWindow.getFocusedWindow();
-      if (win != this.main_window) {
+    this.mainWindow.on("blur", () => {
+      const win = BrowserWindow.getFocusedWindow();
+      if (win !== this.mainWindow) {
         return;
       }
       globalShortcut.unregisterAll();
       console.log("blur");
     });
-    this.main_window.on("focus", () => {
+    this.mainWindow.on("focus", () => {
       console.log("focus");
-      let win = BrowserWindow.getFocusedWindow();
-      if (win != this.main_window) {
+      const win = BrowserWindow.getFocusedWindow();
+      if (win !== this.mainWindow) {
         return;
       }
       this.registerShortcut();
     });
   }
-
+  /**
+   * 获取窗口的webcontents对象，用于判断窗口
+   * Get the webcontents object of the
+   * window, used to judge the window
+   * @returns webContents
+   */
+  public get webContents(): webContents {
+    return this.mainWindow.webContents;
+  }
   public isFocused(): boolean {
-    let win = BrowserWindow.getFocusedWindow();
-    if (win == this.main_window) {
-      if (this.main_window.isFocused()) {
+    const win = BrowserWindow.getFocusedWindow();
+    if (win === this.mainWindow) {
+      if (this.mainWindow.isFocused()) {
         return true;
       }
     }
     return false;
   }
-
+  /**
+   * 关闭窗口（组）
+   * make the window(s) closed
+   *
+   * @abstract
+   * @memberof theNextToolsBase
+   */
+  public close(): void {
+    // 当窗口关闭的时候取消快捷键的绑定
+    // unregist shortcut when window
+    // closing
+    globalShortcut.unregisterAll();
+  }
   /**
    * 改变或者设置一个快捷键
    * change or set one shortcut
@@ -79,9 +99,9 @@ export abstract class theNextToolsBase {
    * @memberof theNextToolsBase
    */
   protected registerOneShortcut(key: string, fun: () => void): void {
-    this.short_cut[key] = fun;
+    this.shortCut[key] = fun;
     // if window is focused
-    if (this.main_window.isFocused()) {
+    if (this.mainWindow.isFocused()) {
       globalShortcut.unregisterAll();
       this.registerShortcut();
     }
@@ -94,21 +114,10 @@ export abstract class theNextToolsBase {
    * @memberof theNextToolsBase
    */
   private registerShortcut(): void {
-    for (let name in this.short_cut) {
-      globalShortcut.register(name, this.short_cut[name]);
+    for (const name in this.shortCut) {
+      if (this.shortCut[name] != null) {
+        globalShortcut.register(name, this.shortCut[name]);
+      }
     }
-  }
-  /**
-   * 关闭窗口（组）
-   * make the window(s) closed
-   *
-   * @abstract
-   * @memberof theNextToolsBase
-   */
-  public  close(): void{
-    // 当窗口关闭的时候取消快捷键的绑定
-    // unregist shortcut when window
-    // closing
-    globalShortcut.unregisterAll();
   }
 }

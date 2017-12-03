@@ -1,18 +1,18 @@
 import { app } from "electron";
 import * as fs from "fs";
 
-export class configReader {
-  private user_path: string;
+export class ConfigReader {
+  private userPath: string;
   constructor() {
-    this.user_path = app.getPath("appData");
-    console.log(this.user_path);
+    this.userPath = app.getPath("appData");
+    console.log(this.userPath);
     // if has no the_next_app_config exists create it
-    if (!fs.existsSync(this.user_path + "/.config/the_next_app_config")) {
-      if (!fs.existsSync(this.user_path + "/.config")) {
-        fs.mkdirSync(this.user_path + "/.config");
+    if (!fs.existsSync(this.userPath + "/.config/the_next_app_config")) {
+      if (!fs.existsSync(this.userPath + "/.config")) {
+        fs.mkdirSync(this.userPath + "/.config");
       }
-      fs.mkdirSync(this.user_path + "/.config/the_next_app_config");
+      fs.mkdirSync(this.userPath + "/.config/the_next_app_config");
     }
-    this.user_path = this.user_path + "/.config/the_next_app_config"
+    this.userPath = this.userPath + "/.config/the_next_app_config"
   }
 }

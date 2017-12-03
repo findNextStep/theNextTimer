@@ -3,10 +3,15 @@
 <head>
     <link rel="stylesheet" type="text/css" href="css/index_style.css" />
     <script type="text/javascript" src="../ts_out/index/clock.js"></script>
+    <script type="text/javascript" src="../ts_out/index/PieClock.js"></script>
 </head>
 
 <body>
-    <!-- <h1>test for page in electron</h1> -->
+    <script>
+        const ipc = require("electron").ipcRenderer;
+        var clock = new PieClock(new Date(), 1000 * 60, document.body);
+        clock.start();
+    </script>
 </body>
 
 </html>

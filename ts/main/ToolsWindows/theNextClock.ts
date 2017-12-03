@@ -1,4 +1,4 @@
-import { theNextToolsBase } from "./theNextToolsBase";
+import { TheNextToolsBase } from "./theNextToolsBase";
 // import * as the_next from "./theNextToolsBase"
 
 /**
@@ -9,17 +9,17 @@ import { theNextToolsBase } from "./theNextToolsBase";
  * @class clockWindow
  * @extends {theNextToolsBase}
  */
-export class clockWindow extends theNextToolsBase {
+export class ClockWindow extends TheNextToolsBase {
   constructor() {
     super();
-    let window_width_ = 157;
-    let window_height = window_width_;
+    const windowWidth = 157;
+    const windowHeight = windowWidth;
     // 确定窗口大小并保持不变
     // make the window in const size
-    this.main_window.setSize(window_width_, window_height);
-    this.main_window.setResizable(false);
-    this.main_window.setFullScreenable(false);
-    this.main_window.setMaximizable(false);
+    this.mainWindow.setSize(windowWidth, windowHeight);
+    this.mainWindow.setResizable(false);
+    this.mainWindow.setFullScreenable(false);
+    this.mainWindow.setMaximizable(false);
     // 使窗口始终置顶
     // make the window always on top
     // 在一些窗口管理器中也许你需要将"* float"加入
@@ -27,19 +27,19 @@ export class clockWindow extends theNextToolsBase {
     // In some window managers maybe you need to
     // add "* float" to the floating window rules
     // to get better results
-    this.main_window.setTitle("the_next clock float");
-    this.main_window.setAlwaysOnTop(true, "floating");
+    this.mainWindow.setTitle("the_next clock float");
+    this.mainWindow.setAlwaysOnTop(true, "floating");
 
     // 注册快捷键
     this.registerOneShortcut("ctrl+e", () => {
       console.log("debug on");
       if (this.isFocused()) {
-        this.main_window.webContents.openDevTools({ mode: "detach" });
+        this.mainWindow.webContents.openDevTools({ mode: "detach" });
       }
     });
     this.registerOneShortcut("tab", () => {
       console.log("catch tab");
-      this.main_window.webContents.send("tab_call");
+      this.mainWindow.webContents.send("tab_call");
     });
     this.registerOneShortcut("alt+f4", () => {
       console.log("close");
@@ -53,12 +53,12 @@ export class clockWindow extends theNextToolsBase {
         this.close();
       }
     });
-    this.main_window.loadURL("file://" + __dirname + "/../index/clock.html");
+    this.mainWindow.loadURL("file://" + __dirname + "/../../../index/clock.html");
   }
 
   public close() {
     super.close();
-    this.main_window.close();
-    this.main_window = null;
+    this.mainWindow.close();
+    this.mainWindow = null;
   }
 }
