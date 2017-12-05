@@ -58,7 +58,9 @@ export class ClockWindow extends TheNextToolsBase {
 
   public close() {
     super.close();
-    this.mainWindow.close();
-    this.mainWindow = null;
+    if (this.mainWindow != null) {
+      this.mainWindow.close();
+      this.mainWindow = null;
+    }
   }
 }

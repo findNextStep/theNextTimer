@@ -1,5 +1,6 @@
-body{
-    margin: 0;
-    padding: 0;
-    color: #eee;
+body {
+  margin: 0;
+  padding: 0;
+  color: #eee;
+  -webkit-app-region: drag;
 }

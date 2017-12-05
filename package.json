@@ -25,6 +25,10 @@
       "fs": "0.0.1-security",
       "path":"^0.12.7",
       "electron":"^1.7.9"
+    },
+    "devDependencies": {
+      "typescript": "^2.2.2",
+      "tslint": "^5.0.0"
     }
   }
   

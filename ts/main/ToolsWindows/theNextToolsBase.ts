@@ -28,11 +28,11 @@ export abstract class TheNextToolsBase {
       // make background transparent
       backgroundColor: "#0000",
       frame: false,
-      resizable: false,
       fullscreenable: false,
+      resizable: false,
       // 消解窗口边界
       // disable the border of the window
-      transparent: true
+      transparent: true,
     });
     // 使窗口快捷键只能在窗口获得焦点时生效
     // make the short cut work only when the window
@@ -42,7 +42,7 @@ export abstract class TheNextToolsBase {
       if (win !== this.mainWindow) {
         return;
       }
-      globalShortcut.unregisterAll();
+      this.UnregisterAllShortcut();
       console.log("blur");
     });
     this.mainWindow.on("focus", () => {
@@ -76,14 +76,13 @@ export abstract class TheNextToolsBase {
    * 关闭窗口（组）
    * make the window(s) closed
    *
-   * @abstract
    * @memberof theNextToolsBase
    */
   public close(): void {
     // 当窗口关闭的时候取消快捷键的绑定
     // unregist shortcut when window
     // closing
-    globalShortcut.unregisterAll();
+    this.UnregisterAllShortcut();
   }
   /**
    * 改变或者设置一个快捷键
@@ -102,8 +101,22 @@ export abstract class TheNextToolsBase {
     this.shortCut[key] = fun;
     // if window is focused
     if (this.mainWindow.isFocused()) {
-      globalShortcut.unregisterAll();
       this.registerShortcut();
+    }
+  }
+  /**
+   * 取消所有本窗口注册的快捷键
+   * Cancel all shortcut keys that current
+   * window registration
+   * @private
+   * @memberof TheNextToolsBase
+   */
+  private UnregisterAllShortcut(): void {
+    for (const name in this.shortCut) {
+      if (this.shortCut[name] != null) {
+        console.log(name);
+        globalShortcut.unregister(name);
+      }
     }
   }
   /**

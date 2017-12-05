@@ -1,18 +1,43 @@
 import { app } from "electron";
 import * as fs from "fs";
+import { existsSync, mkdirSync } from "fs";
+import { readFileSync, writeFileSync } from "original-fs";
 
 export class ConfigReader {
   private userPath: string;
-  constructor() {
-    this.userPath = app.getPath("appData");
-    console.log(this.userPath);
+  private filePath: string;
+  private json: any;
+  constructor(configName: string) {
+    const fileName: string = configName;
+    let userPath: string = app.getPath("appData");
+    this.json = null;
+    // 如果the_next_app_config没有被创建，那就创建它
     // if has no the_next_app_config exists create it
-    if (!fs.existsSync(this.userPath + "/.config/the_next_app_config")) {
-      if (!fs.existsSync(this.userPath + "/.config")) {
-        fs.mkdirSync(this.userPath + "/.config");
+    if (!existsSync(userPath + "/the_next_app_config")) {
+      if (!existsSync(userPath)) {
+        mkdirSync(userPath);
       }
-      fs.mkdirSync(this.userPath + "/.config/the_next_app_config");
+      mkdirSync(userPath + "/the_next_app_config");
     }
-    this.userPath = this.userPath + "/.config/the_next_app_config"
+    userPath = userPath + "/the_next_app_config";
+    this.filePath = userPath + "/" + fileName + ".json";
+    if (existsSync(this.filePath)) {
+      this.json = JSON.parse(readFileSync(this.filePath).toString());
+    } else {
+      this.json = JSON.parse(readFileSync(__dirname + "/../../json_template/" + fileName + ".json").toString());
+      writeFileSync(this.filePath, JSON.stringify(this.json, null, 2).toString());
+    }
+  }
+  public getConfig(name: string, defalut?: string) {
+    if (this.json[name] != null) {
+      return this.json[name];
+    } else if (defalut != null) {
+      this.json[name] = defalut;
+      return defalut;
+    }
+    return null;
+  }
+  public save(): void {
+    writeFileSync(this.filePath, JSON.stringify(this.json, null, 2).toString());
   }
 }
