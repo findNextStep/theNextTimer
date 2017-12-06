@@ -1,3 +1,4 @@
 {
-  "test": "testifadsafdsa"
+  "shutdown": "super+ctrl+q",
+  "addTimer": "super+ctrl+t"
 }

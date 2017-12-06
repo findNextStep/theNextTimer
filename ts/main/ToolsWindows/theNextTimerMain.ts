@@ -1,4 +1,4 @@
-import { BrowserWindow, app } from "electron";
+import { app, BrowserWindow } from "electron";
 import { ConfigReader } from "../configReader";
 import { ClockWindow } from "./theNextClock";
 import { TheNextToolsBase } from "./theNextToolsBase";
@@ -46,6 +46,7 @@ export class TheNextTimerMain extends TheNextToolsBase {
     // 注册关闭快捷键
     // register shortcut for close app
     this.registerOneShortcut(this.configReader.getConfig("shutdown", "super+ctrl+q"), () => {
+      this.close();
       for (const window of this.windowList) {
         if (window != null) {
           window.close();
@@ -59,6 +60,7 @@ export class TheNextTimerMain extends TheNextToolsBase {
     this.registerOneShortcut(this.configReader.getConfig("addTimer", "super+ctrl+t"), () => {
       this.windowList.push(new ClockWindow());
     });
+    this.mainWindow.removeAllListeners();
   }
   /**
    * @memberof theNextToolsBase
@@ -67,5 +69,6 @@ export class TheNextTimerMain extends TheNextToolsBase {
     super.close();
     console.log("quit");
     this.configReader.save();
+    this.mainWindow.close();
   }
 }

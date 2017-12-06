@@ -32,9 +32,9 @@ abstract class ClockBase implements Iclock {
   public static getNowTime(): number {
     return new Date().valueOf();
   }
+  protected startTime: number;
+  protected containTime: number;
   private timer: NodeJS.Timer;
-  private startTime: number;
-  private containTime: number;
   private isRunning: boolean;
   constructor(startTime: Date, contain: number) {
     this.setTime(startTime, contain);
@@ -45,6 +45,7 @@ abstract class ClockBase implements Iclock {
    */
   public abstract destory(): void;
   /**
+   * 设置时钟的颜色
    * set the clock color
    * @param  {number} r the red color number
    * @param  {number} g the green color number
@@ -67,11 +68,19 @@ abstract class ClockBase implements Iclock {
       } else {
         this.setProgtessByNow();
       }
-    }, this.computingTimeInterval());
+      // 刷新时间应当保证画面流畅并实际不高于60帧
+      // The refresh time should ensure that the
+      // picture is smooth and not more than 60 frames.
+    }, Math.max(this.computingTimeInterval(), 1000 / 60));
     // start a draw right now
     this.setProgtessByNow();
     this.isRunning = false;
   }
+  /**
+   * 计时停止
+   * Stop the timing
+   * @memberof ClockBase
+   */
   public stop(): void {
     clearInterval(this.timer);
     this.isRunning = false;
@@ -84,6 +93,12 @@ abstract class ClockBase implements Iclock {
     }
     return this.isRunning;
   }
+  /**
+   * 使用当前时间计算形状
+   * Use the current time to
+   * calculate the shape
+   * @memberof ClockBase
+   */
   public setProgtessByNow(): void {
     this.progressChange((ClockBase.getNowTime() - this.startTime) / this.containTime);
   }
@@ -104,8 +119,12 @@ abstract class ClockBase implements Iclock {
     this.containTime = contain;
   }
   /**
-   * get best update time for the clock
-   * @returns number
+   * 获取最小刷新时间
+   * Get the minimum refresh time
+   * @protected
+   * @abstract
+   * @returns {number} minimu refresh time
+   * @memberof ClockBase
    */
   protected abstract computingTimeInterval(): number;
   /**

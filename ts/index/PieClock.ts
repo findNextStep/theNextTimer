@@ -24,7 +24,6 @@ class PieClock extends ClockBase {
     const x: number = this.width / 2;
     const y: number = this.height / 2;
     const r: number = x - 3;
-    console.log("test" + x + "," + y + "," + r);
     // 清空画布
     ctx.clearRect(0, 0, x * 2, y * 2);
     ctx.fillStyle = this.color.toString();
@@ -47,7 +46,7 @@ class PieClock extends ClockBase {
     this.pieClock.remove();
   }
   protected computingTimeInterval(): number {
-    return 1000 / 60;
+    return this.containTime / ((this.height + this.width) * 2);
   }
   public get height(): number {
     const height = document.defaultView.getComputedStyle(this.pieClock, null).height;

@@ -9,7 +9,7 @@
 <body>
     <script>
         const ipc = require("electron").ipcRenderer;
-        var clock = new PieClock(new Date(), 1000 * 60, document.body);
+        var clock = new PieClock(new Date(), 1000 * 60 * 60, document.body);
         clock.start();
     </script>
 </body>

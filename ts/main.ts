@@ -19,3 +19,6 @@ app.on("ready", () => {
     }
   });
 });
+app.on("quit", () => {
+  console.log("app has quit");
+});
