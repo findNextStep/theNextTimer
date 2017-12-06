@@ -37,7 +37,10 @@ export abstract class TheNextToolsBase {
     // 使窗口快捷键只能在窗口获得焦点时生效
     // make the short cut work only when the window
     // is focused
-    this.mainWindow.on("blur", this.UnregisterAllShortcut);
+    this.mainWindow.on("blur", () => {
+      console.log("blur");
+      this.UnregisterAllShortcut();
+    });
     this.mainWindow.on("focus", () => {
       const win = BrowserWindow.getFocusedWindow();
       if (win !== this.mainWindow) {
