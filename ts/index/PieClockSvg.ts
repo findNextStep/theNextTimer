@@ -4,6 +4,20 @@ class PieClockSvg extends ClockBase {
   private svg: SVGSVGElement;
   private pie: SVGCircleElement;
   private border: SVGCircleElement;
+  /**
+   * 创建一个基于svg的扇形计时器
+   * create a pie clock with svg
+   * @param {Date} startTime
+   *              计时器启动时间
+   *              Time to start timer
+   * @param {number} contain
+   *              计时持续时间
+   *              time timer contain
+   * @param {HTMLElement} parent
+   *              计时器上级
+   *              parent for timer
+   * @memberof PieClockSvg
+   */
   constructor(startTime: Date, contain: number, parent: HTMLElement) {
     super(startTime, contain);
     this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");

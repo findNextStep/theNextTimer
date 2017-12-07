@@ -1,3 +1,4 @@
+import { ConfigReader } from "../configReader";
 import { TheNextToolsBase } from "./theNextToolsBase";
 // import * as the_next from "./theNextToolsBase"
 
@@ -10,8 +11,10 @@ import { TheNextToolsBase } from "./theNextToolsBase";
  * @extends {theNextToolsBase}
  */
 export class ClockWindow extends TheNextToolsBase {
+  private configReader: ConfigReader;
   constructor() {
     super();
+    this.configReader = new ConfigReader("theNextClockWindow");
     const windowWidth = 157;
     const windowHeight = windowWidth;
     // 确定窗口大小并保持不变
@@ -31,26 +34,10 @@ export class ClockWindow extends TheNextToolsBase {
     this.mainWindow.setAlwaysOnTop(true, "floating");
 
     // 注册快捷键
-    this.registerOneShortcut("ctrl+e", () => {
+    this.registerOneShortcut(this.configReader.getConfig("debug", "ctrl+e"), () => {
       console.log("debug on");
       if (this.isFocused()) {
         this.mainWindow.webContents.openDevTools({ mode: "detach" });
-      }
-    });
-    this.registerOneShortcut("tab", () => {
-      console.log("catch tab");
-      this.mainWindow.webContents.send("tab_call");
-    });
-    this.registerOneShortcut("alt+f4", () => {
-      console.log("close");
-      if (this.isFocused()) {
-        this.close();
-      }
-    });
-    this.registerOneShortcut("ctrl+w", () => {
-      console.log("close");
-      if (this.isFocused()) {
-        this.close();
       }
     });
     this.mainWindow.loadURL("file://" + __dirname + "/../../../index/clock.html");
@@ -58,7 +45,7 @@ export class ClockWindow extends TheNextToolsBase {
 
   public close() {
     super.close();
-    if (this.mainWindow != null) {
+    if (this.mainWindow != null && !this.mainWindow.isDestroyed()) {
       this.mainWindow.close();
       this.mainWindow = null;
     }

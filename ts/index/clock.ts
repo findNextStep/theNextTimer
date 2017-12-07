@@ -1,7 +1,9 @@
 interface Iclock {
   /**
-   * start timer
-   * @memberof clock
+   * 使计时器启动
+   * let the clock start
+   *
+   * @memberof Iclock
    */
   start(): void;
 
@@ -13,8 +15,18 @@ interface Iclock {
 
   /**
    * stop the timer
+   * @memberof Iclock
    */
   stop(): void;
+  /**
+   * 设置时钟的颜色
+   * set the clock color
+   * @param  {number} r the red color number
+   * @param  {number} g the green color number
+   * @param  {number} b the blue color number
+   * @returns void
+   */
+  setColor(r: number, g: number, b: number): void;
 
   /**
    * setting timer start time and contain time
@@ -44,21 +56,8 @@ abstract class ClockBase implements Iclock {
    * @returns void
    */
   public abstract destory(): void;
-  /**
-   * 设置时钟的颜色
-   * set the clock color
-   * @param  {number} r the red color number
-   * @param  {number} g the green color number
-   * @param  {number} b the blue color number
-   * @returns void
-   */
   public abstract setColor(r: number, g: number, b: number): void;
-  /**
-   * 使计时器启动
-   * let the clock start
-   *
-   * @memberof ClockBase
-   */
+
   public start(): void {
     this.timer = setInterval(() => {
       // if time over
@@ -76,11 +75,6 @@ abstract class ClockBase implements Iclock {
     this.setProgtessByNow();
     this.isRunning = false;
   }
-  /**
-   * 计时停止
-   * Stop the timing
-   * @memberof ClockBase
-   */
   public stop(): void {
     clearInterval(this.timer);
     this.isRunning = false;

@@ -1,15 +1,15 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="css/index_style.css" />
+    <link rel="stylesheet" type="text/css" href="css/clock_style.css" />
     <script type="text/javascript" src="../ts_out/index/clock.js"></script>
-    <script type="text/javascript" src="../ts_out/index/PieClockSvg.js"></script>
+    <script type="text/javascript" src="../ts_out/index/PieClock.js"></script>
 </head>
 
 <body>
     <script>
         const ipc = require("electron").ipcRenderer;
-        var clock = new  PieClockSvg(new Date(), 1000 * 60 * 60, document.body);
+        var clock = new  PieClock(new Date(), 1000 * 60 * 60, document.body);
         clock.start();
     </script>
 </body>

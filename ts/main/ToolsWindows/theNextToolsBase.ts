@@ -28,7 +28,6 @@ export abstract class TheNextToolsBase {
       // make background transparent
       backgroundColor: "#0000",
       frame: false,
-      fullscreenable: false,
       resizable: false,
       // 消解窗口边界
       // disable the border of the window

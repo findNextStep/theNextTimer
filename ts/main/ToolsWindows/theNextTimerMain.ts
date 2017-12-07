@@ -2,6 +2,7 @@ import { app, BrowserWindow } from "electron";
 import { ConfigReader } from "../configReader";
 import { ClockWindow } from "./theNextClock";
 import { TheNextToolsBase } from "./theNextToolsBase";
+import { TheNextTimerSetter } from "./theNextTimerSetter";
 /**
  * 工具管理窗口，用于TheNextToolsBase的其他
  * 子类实现的使用
@@ -52,13 +53,13 @@ export class TheNextTimerMain extends TheNextToolsBase {
           window.close();
         }
         this.windowList.splice(this.windowList.indexOf(window));
-        app.quit();
       }
+      app.quit();
     });
     // 注册启动计时器的快捷键
     // register shortcut for start a timer
     this.registerOneShortcut(this.configReader.getConfig("addTimer", "super+ctrl+t"), () => {
-      this.windowList.push(new ClockWindow());
+      this.windowList.push(new TheNextTimerSetter());
     });
     this.mainWindow.removeAllListeners();
   }
