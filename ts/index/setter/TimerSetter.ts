@@ -1,3 +1,6 @@
+const electron = require("electron");
+const ipcRenderer = electron.ipcRenderer;
+
 class TimerSetter extends TheNextWindow {
   // 小时设置
   // hours setting
@@ -24,6 +27,15 @@ class TimerSetter extends TheNextWindow {
     this.hourSetter = new TheNextInputNumber({ max: 12, min: 0, default: 0 });
     this.minuteSetter = new TheNextInputNumber({ max: 60, min: 0, default: 50 });
     this.secondSetting = new TheNextInputNumber({ max: 60, min: 0, default: 0 });
+    this.hourSetter.onSubmit = () => {
+      this.submit();
+    };
+    this.minuteSetter.onSubmit = () => {
+      this.submit();
+    };
+    this.secondSetting.onSubmit = () => {
+      this.submit();
+    };
     hours.innerText = "小时";
     minute.innerText = "分钟";
     second.innerText = "秒";
@@ -50,5 +62,11 @@ class TimerSetter extends TheNextWindow {
   protected centerIt(): void {
     this.container.style.marginLeft = "-" + this.width / 2 + "px";
     this.container.style.marginTop = "-" + this.height / 2 + "px";
+  }
+
+  protected submit(): void {
+    console.log("wait for submit code");
+    ipcRenderer.send("getTime", this.hourSetter.innerNumber,
+            this.minuteSetter.innerNumber, this.secondSetting.innerNumber);
   }
 }

@@ -13,6 +13,7 @@ import { BrowserWindow, globalShortcut, webContents } from "electron";
  */
 export abstract class TheNextToolsBase {
   protected mainWindow: BrowserWindow;
+  protected onCloseFun: () => void;
   private shortCut: { [key: string]: () => void };
   /**
    * 创建一个简单的the_next工具窗口
@@ -31,7 +32,10 @@ export abstract class TheNextToolsBase {
       resizable: false,
       // 消解窗口边界
       // disable the border of the window
-      transparent: true,
+      transparent: true
+    });
+    this.mainWindow.on("closed", () => {
+      this.close();
     });
     // 使窗口快捷键只能在窗口获得焦点时生效
     // make the short cut work only when the window
@@ -57,12 +61,18 @@ export abstract class TheNextToolsBase {
   public get webContents(): webContents {
     return this.mainWindow.webContents;
   }
+  /**
+   * 判断窗口是否被锁定，用于快捷键解绑判断
+   * Determine whether the window is locked and used for quick key binding judgment
+   * @returns {boolean}
+   * 窗口是否锁定
+   * whether the window is locked
+   * @memberof TheNextToolsBase
+   */
   public isFocused(): boolean {
     const win = BrowserWindow.getFocusedWindow();
     if (win === this.mainWindow) {
-      if (this.mainWindow.isFocused()) {
-        return true;
-      }
+      return this.mainWindow.isFocused();
     }
     return false;
   }
@@ -77,6 +87,13 @@ export abstract class TheNextToolsBase {
     // unregist shortcut when window
     // closing
     this.UnregisterAllShortcut();
+    if (this.onCloseFun != null) {
+      this.onCloseFun();
+    }
+    if (this.mainWindow != null && !this.mainWindow.isDestroyed()) {
+      this.mainWindow.close();
+      this.mainWindow = null;
+    }
   }
   /**
    * 改变或者设置一个快捷键
@@ -92,9 +109,14 @@ export abstract class TheNextToolsBase {
    * @memberof theNextToolsBase
    */
   protected registerOneShortcut(key: string, fun: () => void): void {
+    if (key == null) {
+      return;
+    }
+    this.UnregisterAllShortcut();
     this.shortCut[key] = fun;
     // if window is focused
-    if (this.mainWindow.isFocused()) {
+    if (this.isFocused()) {
+      // console.log(key);
       this.registerShortcut();
     }
   }
@@ -122,8 +144,17 @@ export abstract class TheNextToolsBase {
   private registerShortcut(): void {
     for (const name in this.shortCut) {
       if (this.shortCut[name] != null) {
+        // console.log(name);
         globalShortcut.register(name, this.shortCut[name]);
       }
     }
+  }
+  /**
+   * 设置窗口关闭时的回调函数
+   * set window close callback
+   * @memberof TheNextToolsBase
+   */
+  public set onClose(fun: () => void) {
+    this.onCloseFun = fun;
   }
 }

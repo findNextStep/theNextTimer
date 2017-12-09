@@ -1,5 +1,4 @@
 import { app, globalShortcut, ipcMain } from "electron";
-import { ClockWindow } from "./main/ToolsWindows/theNextClock";
 import { TheNextTimerMain } from "./main/ToolsWindows/theNextTimerMain";
 import { TheNextToolsBase } from "./main/ToolsWindows/theNextToolsBase";
 

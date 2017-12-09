@@ -10,7 +10,7 @@ import { TheNextToolsBase } from "./theNextToolsBase";
  * @class clockWindow
  * @extends {theNextToolsBase}
  */
-export class ClockWindow extends TheNextToolsBase {
+export class TheNextClock extends TheNextToolsBase {
   private configReader: ConfigReader;
   constructor() {
     super();
@@ -45,9 +45,5 @@ export class ClockWindow extends TheNextToolsBase {
 
   public close() {
     super.close();
-    if (this.mainWindow != null && !this.mainWindow.isDestroyed()) {
-      this.mainWindow.close();
-      this.mainWindow = null;
-    }
   }
 }

@@ -1,6 +1,6 @@
 {
     "name": "the-next-svg-client",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "main": "./ts_out/main.js",
     "author": {
       "name": "the_next",

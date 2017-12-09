@@ -132,6 +132,28 @@ class TheNextInputNumber implements TheNextInput {
     console.log(num);
     this.numberInput.value = num.toString();
   }
+  /**
+   * 设置回车响应
+   * set callback function when enter
+   * @memberof TheNextInputNumber
+   */
+  public set onSubmit(fun: () => void) {
+    this.numberInput.onsubmit = () => {
+      return false;
+    };
+    this.numberInput.onkeydown = event => {
+      if (event.keyCode === 13) {
+        fun();
+      }
+    };
+  }
+
+  /**
+   * 输入框基本的检查和响应
+   * basic check
+   * @protected
+   * @memberof TheNextInputNumber
+   */
   protected whenChange(): void {
     if (this.maxNumber != null && this.innerNumber > this.maxNumber) {
       this.number = this.maxNumber;

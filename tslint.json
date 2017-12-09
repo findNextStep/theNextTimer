@@ -1,9 +1,6 @@
 {
   "extends": "tslint:recommended",
   "rules": {
-    "max-line-length": {
-      "options": [120]
-    },
     "new-parens": true,
     "no-arg": true,
     "no-bitwise": true,

@@ -1,8 +1,8 @@
 import { app, BrowserWindow } from "electron";
 import { ConfigReader } from "../configReader";
-import { ClockWindow } from "./theNextClock";
-import { TheNextToolsBase } from "./theNextToolsBase";
+import { TheNextClock } from "./theNextClock";
 import { TheNextTimerSetter } from "./theNextTimerSetter";
+import { TheNextToolsBase } from "./theNextToolsBase";
 /**
  * 工具管理窗口，用于TheNextToolsBase的其他
  * 子类实现的使用
@@ -59,7 +59,22 @@ export class TheNextTimerMain extends TheNextToolsBase {
     // 注册启动计时器的快捷键
     // register shortcut for start a timer
     this.registerOneShortcut(this.configReader.getConfig("addTimer", "super+ctrl+t"), () => {
-      this.windowList.push(new TheNextTimerSetter());
+      const newSetter = new TheNextTimerSetter();
+      this.windowList.push(newSetter);
+      newSetter.onClose = () => {
+        this.windowList.splice(this.windowList.indexOf(newSetter));
+      };
+      newSetter.onDataGet = (hour, mintue, second) => {
+        newSetter.close();
+        const newClock = new TheNextClock();
+        this.windowList.push(newClock);
+        newClock.onClose = () => {
+          this.windowList.splice(this.windowList.indexOf(newClock));
+        };
+        newClock.webContents.on("dom-ready", () => {
+          newClock.webContents.send("setTime", hour, mintue, second);
+        });
+      };
     });
     this.mainWindow.removeAllListeners();
   }
@@ -70,6 +85,8 @@ export class TheNextTimerMain extends TheNextToolsBase {
     super.close();
     console.log("quit");
     this.configReader.save();
-    this.mainWindow.close();
+  }
+  public isFocused(): boolean {
+    return true;
   }
 }
