@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from "electron";
 import { ConfigReader } from "../configReader";
-import { TheNextClock } from "./theNextClock";
+import { TheNextTimer } from "./theNextTimer";
 import { TheNextTimerSetter } from "./theNextTimerSetter";
 import { TheNextToolsBase } from "./theNextToolsBase";
 /**
@@ -66,13 +66,13 @@ export class TheNextTimerMain extends TheNextToolsBase {
       };
       newSetter.onDataGet = (hour, mintue, second) => {
         newSetter.close();
-        const newClock = new TheNextClock();
-        this.windowList.push(newClock);
-        newClock.onClose = () => {
-          this.windowList.splice(this.windowList.indexOf(newClock));
+        const newTimer = new TheNextTimer();
+        this.windowList.push(newTimer);
+        newTimer.onClose = () => {
+          this.windowList.splice(this.windowList.indexOf(newTimer));
         };
-        newClock.webContents.on("dom-ready", () => {
-          newClock.webContents.send("setTime", hour, mintue, second);
+        newTimer.webContents.on("dom-ready", () => {
+          newTimer.webContents.send("setTime", hour, mintue, second);
         });
       };
     });

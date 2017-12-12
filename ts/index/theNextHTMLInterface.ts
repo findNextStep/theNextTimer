@@ -40,7 +40,7 @@ abstract class TheNextWindow extends TheNextUI {
    * Get the height of the current svg
    * @readonly
    * @type {number}
-   * @memberof PieClock
+   * @memberof TheNextWindow
    */
   public get height(): number {
     const height = document.defaultView.getComputedStyle(this.container, null).height;
@@ -51,7 +51,7 @@ abstract class TheNextWindow extends TheNextUI {
    * Get the height of the current svg
    * @readonly
    * @type {number}
-   * @memberof PieClock
+   * @memberof TheNextWindow
    */
   public get width(): number {
     const width = document.defaultView.getComputedStyle(this.container, null).width;

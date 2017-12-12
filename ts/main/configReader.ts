@@ -23,8 +23,12 @@ export class ConfigReader {
     this.filePath = userPath + "/" + fileName + ".json";
     if (existsSync(this.filePath)) {
       this.json = JSON.parse(readFileSync(this.filePath).toString());
-    } else {
+    } else if (existsSync(__dirname + "/../../json_template/" + fileName + ".json")) {
       this.json = JSON.parse(readFileSync(__dirname + "/../../json_template/" + fileName + ".json").toString());
+      writeFileSync(this.filePath, JSON.stringify(this.json, null, 2).toString());
+    } else {
+      console.log("no found " + fileName + " defalut json, using {}");
+      this.json = {};
       writeFileSync(this.filePath, JSON.stringify(this.json, null, 2).toString());
     }
   }

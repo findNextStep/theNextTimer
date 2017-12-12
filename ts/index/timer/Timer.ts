@@ -1,9 +1,9 @@
-interface Iclock {
+interface ITimer {
   /**
    * 使计时器启动
-   * let the clock start
+   * let the timer start
    *
-   * @memberof Iclock
+   * @memberof ITimer
    */
   start(): void;
 
@@ -15,15 +15,15 @@ interface Iclock {
 
   /**
    * stop the timer
-   * @memberof Iclock
+   * @memberof ITimer
    */
   stop(): void;
   /**
    * 设置时钟的颜色
-   * set the clock color
-   * @param  {number} r the red color number
-   * @param  {number} g the green color number
-   * @param  {number} b the blue color number
+   * set the Timer color
+   * @param  {number} r the red color number 0~255
+   * @param  {number} g the green color number 0~255
+   * @param  {number} b the blue color number 0~255
    * @returns void
    */
   setColor(r: number, g: number, b: number): void;
@@ -36,7 +36,7 @@ interface Iclock {
    */
   setTime(startTime: Date, contain: number): void;
 }
-abstract class ClockBase implements Iclock {
+abstract class TimerBase implements ITimer {
   /**
    * get now time value
    * @returns number
@@ -52,7 +52,7 @@ abstract class ClockBase implements Iclock {
     this.setTime(startTime, contain);
   }
   /**
-   * destory the clock element
+   * destory the Timer element
    * @returns void
    */
   public abstract destory(): void;
@@ -91,10 +91,10 @@ abstract class ClockBase implements Iclock {
    * 使用当前时间计算形状
    * Use the current time to
    * calculate the shape
-   * @memberof ClockBase
+   * @memberof TimerBase
    */
   public setProgtessByNow(): void {
-    this.progressChange((ClockBase.getNowTime() - this.startTime) / this.containTime);
+    this.progressChange((TimerBase.getNowTime() - this.startTime) / this.containTime);
   }
   /**
    * 设定计时器的时间
@@ -106,7 +106,7 @@ abstract class ClockBase implements Iclock {
    * @param {number} contain
    *                计时的持续时间
    *                how long will it continue
-   * @memberof ClockBase
+   * @memberof TimerBase
    */
   public setTime(startTime: Date, contain: number): void {
     this.startTime = startTime.getTime();
@@ -118,7 +118,7 @@ abstract class ClockBase implements Iclock {
    * @protected
    * @abstract
    * @returns {number} minimu refresh time
-   * @memberof ClockBase
+   * @memberof TimerBase
    */
   protected abstract computingTimeInterval(): number;
   /**

@@ -1,4 +1,4 @@
-class PieClockSvg extends ClockBase {
+class PieTimerSvg extends TimerBase {
   private static r: number = 100;
   private color: string;
   private svg: SVGSVGElement;
@@ -6,7 +6,7 @@ class PieClockSvg extends ClockBase {
   private border: SVGCircleElement;
   /**
    * 创建一个基于svg的扇形计时器
-   * create a pie clock with svg
+   * create a pie Timer with svg
    * @param {Date} startTime
    *              计时器启动时间
    *              Time to start timer
@@ -16,7 +16,7 @@ class PieClockSvg extends ClockBase {
    * @param {HTMLElement} parent
    *              计时器上级
    *              parent for timer
-   * @memberof PieClockSvg
+   * @memberof PieTimerSvg
    */
   constructor(startTime: Date, contain: number, parent: HTMLElement) {
     super(startTime, contain);
@@ -29,16 +29,16 @@ class PieClockSvg extends ClockBase {
     this.svg.setAttribute("viewBox", "0 0 200 200");
     this.setColor(255, 255, 255);
     this.svg.appendChild(this.pie);
-    this.pie.setAttribute("cx", PieClockSvg.r.toString());
-    this.pie.setAttribute("cy", PieClockSvg.r.toString());
-    this.pie.setAttribute("r", (PieClockSvg.r / 2).toString());
-    this.pie.setAttribute("stroke-width", (PieClockSvg.r - 4).toString());
+    this.pie.setAttribute("cx", PieTimerSvg.r.toString());
+    this.pie.setAttribute("cy", PieTimerSvg.r.toString());
+    this.pie.setAttribute("r", (PieTimerSvg.r / 2).toString());
+    this.pie.setAttribute("stroke-width", (PieTimerSvg.r - 4).toString());
     this.pie.setAttribute("fill", "rgba(0,0,0,0)");
-    this.pie.setAttribute("transform", "rotate(270 " + PieClockSvg.r.toString() + " " + PieClockSvg.r.toString() + ")");
+    this.pie.setAttribute("transform", "rotate(270 " + PieTimerSvg.r.toString() + " " + PieTimerSvg.r.toString() + ")");
     this.svg.appendChild(this.border);
-    this.border.setAttribute("cx", PieClockSvg.r.toString());
-    this.border.setAttribute("cy", PieClockSvg.r.toString());
-    this.border.setAttribute("r", (PieClockSvg.r - 2).toString());
+    this.border.setAttribute("cx", PieTimerSvg.r.toString());
+    this.border.setAttribute("cy", PieTimerSvg.r.toString());
+    this.border.setAttribute("r", (PieTimerSvg.r - 2).toString());
     this.border.setAttribute("stroke-width", "2");
     this.border.setAttribute("fill", "rgba(0,0,0,0)");
   }
@@ -55,14 +55,14 @@ class PieClockSvg extends ClockBase {
     this.border.style.stroke = this.color;
   }
   public progressChange(progress: number) {
-    this.pie.setAttribute("stroke-dasharray", "" + Math.PI * PieClockSvg.r * progress + " " + Math.PI * PieClockSvg.r);
+    this.pie.setAttribute("stroke-dasharray", "" + Math.PI * PieTimerSvg.r * progress + " " + Math.PI * PieTimerSvg.r);
   }
   /**
    * 获取当前svg的高度
    * Get the height of the current svg
    * @readonly
    * @type {number}
-   * @memberof PieClock
+   * @memberof PieTimer
    */
   public get height(): number {
     const height = document.defaultView.getComputedStyle(this.svg, null).height;
@@ -73,7 +73,7 @@ class PieClockSvg extends ClockBase {
    * Get the height of the current svg
    * @readonly
    * @type {number}
-   * @memberof PieClock
+   * @memberof PieTimer
    */
   public get width(): number {
     const width = document.defaultView.getComputedStyle(this.svg, null).width;

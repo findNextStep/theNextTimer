@@ -6,7 +6,7 @@ export class TheNextTimerSetter extends TheNextToolsBase {
   constructor() {
     super();
     this.mainWindow.setFullScreen(true);
-    this.mainWindow.loadURL(__dirname + "/../../../index/image_setter.html");
+    this.mainWindow.loadURL(__dirname + "/../../../index/TimerSetter.html");
     this.registerOneShortcut("ctrl+e", () => {
       if (this.isFocused()) {
         console.log("debug on");

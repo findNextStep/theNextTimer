@@ -7,14 +7,14 @@ import { TheNextToolsBase } from "./theNextToolsBase";
  * A simple timing window
  *
  * @export
- * @class clockWindow
+ * @class TimerWindow
  * @extends {theNextToolsBase}
  */
-export class TheNextClock extends TheNextToolsBase {
+export class TheNextTimer extends TheNextToolsBase {
   private configReader: ConfigReader;
   constructor() {
     super();
-    this.configReader = new ConfigReader("theNextClockWindow");
+    this.configReader = new ConfigReader("theNextTimerWindow");
     const windowWidth = 157;
     const windowHeight = windowWidth;
     // 确定窗口大小并保持不变
@@ -30,7 +30,7 @@ export class TheNextClock extends TheNextToolsBase {
     // In some window managers maybe you need to
     // add "* float" to the floating window rules
     // to get better results
-    this.mainWindow.setTitle("the_next clock float");
+    this.mainWindow.setTitle("the_next Timer float");
     this.mainWindow.setAlwaysOnTop(true, "floating");
 
     // 注册快捷键
@@ -40,7 +40,7 @@ export class TheNextClock extends TheNextToolsBase {
         this.mainWindow.webContents.openDevTools({ mode: "detach" });
       }
     });
-    this.mainWindow.loadURL("file://" + __dirname + "/../../../index/clock.html");
+    this.mainWindow.loadURL("file://" + __dirname + "/../../../index/Timer.html");
   }
 
   public close() {
