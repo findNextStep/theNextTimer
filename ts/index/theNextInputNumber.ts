@@ -19,7 +19,7 @@ interface ITheNextInputNumberInitOption {
    * @type {number}
    * @memberof ITheNextInputNumberInitOption
    */
-  default?: number;
+  defaultNumber?: number;
 }
 /**
  * 数字输入框类
@@ -59,8 +59,8 @@ class TheNextInputNumber implements TheNextInput {
       if (option.min != null) {
         this.min = option.min;
       }
-      if (option.default != null) {
-        this.number = option.default;
+      if (option.defaultNumber != null) {
+        this.number = option.defaultNumber;
       }
     }
     this.whenChange();

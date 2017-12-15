@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcRenderer, ipcMain } from "electron";
 import { ConfigReader } from "../configReader";
 import { TheNextTimer } from "./theNextTimer";
 import { TheNextTimerSetter } from "./theNextTimerSetter";
@@ -64,7 +64,7 @@ export class TheNextTimerMain extends TheNextToolsBase {
       newSetter.onClose = () => {
         this.windowList.splice(this.windowList.indexOf(newSetter));
       };
-      newSetter.onDataGet = (hour, mintue, second) => {
+      newSetter.onDataGet = (data: number[]) => {
         newSetter.close();
         const newTimer = new TheNextTimer();
         this.windowList.push(newTimer);
@@ -72,9 +72,15 @@ export class TheNextTimerMain extends TheNextToolsBase {
           this.windowList.splice(this.windowList.indexOf(newTimer));
         };
         newTimer.webContents.on("dom-ready", () => {
-          newTimer.webContents.send("setTime", hour, mintue, second);
+          newTimer.webContents.send("setTime", data[0], data[1], data[2]);
         });
       };
+      console.log("test");
+      ipcMain.once("ready", () => {
+        newSetter.webContents.send("getRequire", "小时", 12, 0, 0);
+        newSetter.webContents.send("getRequire", "分", 60, 0, 50);
+        newSetter.webContents.send("getRequire", "秒", 60, 0, 0);
+      });
     });
     this.mainWindow.removeAllListeners();
   }

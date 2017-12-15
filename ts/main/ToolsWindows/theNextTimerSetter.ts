@@ -2,7 +2,7 @@ import { ipcMain } from "electron";
 import { TheNextToolsBase } from "./theNextToolsBase";
 
 export class TheNextTimerSetter extends TheNextToolsBase {
-  private onDataGetFun: (hour: number, minute: number, second: number) => void;
+  private onDataGetFun: (data: number[]) => void;
   constructor() {
     super();
     this.mainWindow.setFullScreen(true);
@@ -13,9 +13,9 @@ export class TheNextTimerSetter extends TheNextToolsBase {
         this.mainWindow.webContents.openDevTools({ mode: "detach" });
       }
     });
-    ipcMain.once("getTime", (event, hour: number, minute: number, second: number) => {
+    ipcMain.once("getTime", (event, data: number[]) => {
       if (this.onDataGetFun != null) {
-        this.onDataGetFun(hour, minute, second);
+        this.onDataGetFun(data);
       }
     });
   }
@@ -24,7 +24,7 @@ export class TheNextTimerSetter extends TheNextToolsBase {
    * set call back function when receive data
    * @memberof TheNextTimerSetter
    */
-  public set onDataGet(fun: (hour: number, minute: number, second: number) => void) {
+  public set onDataGet(fun: (data: number[]) => void) {
     this.onDataGetFun = fun;
   }
 }

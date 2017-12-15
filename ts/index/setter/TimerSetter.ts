@@ -2,15 +2,8 @@ const electron = require("electron");
 const ipcRenderer = electron.ipcRenderer;
 
 class TimerSetter extends TheNextWindow {
-  // 小时设置
-  // hours setting
-  private hourSetter: TheNextInputNumber;
-  // 分钟设置
-  // minute setting
-  private minuteSetter: TheNextInputNumber;
-  // 秒数设置
-  // second setting
-  private secondSetting: TheNextInputNumber;
+  private numbers: TheNextInputNumber[];
+  private name: HTMLParagraphElement[];
   /**
    * 创建一个计时器设置器
    * create timer setter
@@ -21,30 +14,27 @@ class TimerSetter extends TheNextWindow {
     document.body.appendChild(this.container);
     this.container.id = "setter";
     this.container.style.position = "absolute";
+    this.numbers = [];
+    this.name = [];
     const hours: HTMLParagraphElement = document.createElement("p");
     const minute: HTMLParagraphElement = document.createElement("p");
     const second: HTMLParagraphElement = document.createElement("p");
-    this.hourSetter = new TheNextInputNumber({ max: 12, min: 0, default: 0 });
-    this.minuteSetter = new TheNextInputNumber({ max: 60, min: 0, default: 50 });
-    this.secondSetting = new TheNextInputNumber({ max: 60, min: 0, default: 0 });
-    this.hourSetter.onSubmit = () => {
-      this.submit();
-    };
-    this.minuteSetter.onSubmit = () => {
-      this.submit();
-    };
-    this.secondSetting.onSubmit = () => {
-      this.submit();
-    };
-    hours.innerText = "小时";
-    minute.innerText = "分钟";
-    second.innerText = "秒";
-    this.appendChild(this.hourSetter);
-    this.appendChild(hours);
-    this.appendChild(this.minuteSetter);
-    this.appendChild(minute);
-    this.appendChild(this.secondSetting);
-    this.appendChild(second);
+    ipcRenderer.on("getRequire", (event, name: string, maxNumber?: number, minNumber?: number, defaul?: number) => {
+      console.log(name);
+      const nameP: HTMLParagraphElement = document.createElement("p");
+      nameP.innerText = name;
+      const input: TheNextInputNumber = new TheNextInputNumber({
+        defaultNumber: defaul,
+        max: maxNumber,
+        min: minNumber,
+      });
+      this.appendChild(input);
+      this.numbers.push(input);
+      input.onSubmit = () => {
+        this.submit();
+      };
+      this.appendChild(nameP);
+    });
     // 重新定义位置保证窗口变化时，div始终在中心
     // When the location guarantee window is
     // redefined, div is always in the center
@@ -66,7 +56,11 @@ class TimerSetter extends TheNextWindow {
 
   protected submit(): void {
     console.log("wait for submit code");
-    ipcRenderer.send("getTime", this.hourSetter.innerNumber,
-            this.minuteSetter.innerNumber, this.secondSetting.innerNumber);
+    const data: number[] = [];
+    for (const input of this.numbers) {
+      data.push(input.innerNumber);
+    }
+    console.log(data);
+    ipcRenderer.send("getTime", data);
   }
 }

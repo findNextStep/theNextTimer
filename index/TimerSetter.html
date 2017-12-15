@@ -9,8 +9,10 @@
 </head>
 <script>
     window.onload = () => {
-        new TheNextInputNumber();
         var setter = new TimerSetter();
+        const electron = require('electron');
+        const ipc  =electron.ipcRenderer;
+        ipc.send("ready");
     }
 </script>
 

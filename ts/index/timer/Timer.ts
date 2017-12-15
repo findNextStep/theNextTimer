@@ -1,3 +1,5 @@
+
+
 interface ITimer {
   /**
    * 使计时器启动
@@ -31,10 +33,10 @@ interface ITimer {
   /**
    * setting timer start time and contain time
    * @param  {Date} startTime when the timer start
-   * @param  {number} contain how long we cost in millisecond
+   * @param  {number} contain how long we cost in millisecond or when the timer end
    * @returns void
    */
-  setTime(startTime: Date, contain: number): void;
+  setTime(startTime: Date, contain: number | Date): void;
 }
 abstract class TimerBase implements ITimer {
   /**
@@ -48,7 +50,7 @@ abstract class TimerBase implements ITimer {
   protected containTime: number;
   private timer: NodeJS.Timer;
   private isRunning: boolean;
-  constructor(startTime: Date, contain: number) {
+  constructor(startTime: Date, contain: number | Date) {
     this.setTime(startTime, contain);
   }
   /**
@@ -104,13 +106,17 @@ abstract class TimerBase implements ITimer {
    *                计时的启动时间
    *                when the timer start
    * @param {number} contain
-   *                计时的持续时间
-   *                how long will it continue
+   *                计时的持续时间或者结束时间
+   *                how long will it continue or end time
    * @memberof TimerBase
    */
-  public setTime(startTime: Date, contain: number): void {
+  public setTime(startTime: Date, contain: number | Date): void {
     this.startTime = startTime.getTime();
-    this.containTime = contain;
+    if (contain instanceof Date) {
+      this.containTime = contain.getTime() - startTime.getTime();
+    } else if (!isNaN(contain)) {
+      this.containTime = contain;
+    }
   }
   /**
    * 获取最小刷新时间
