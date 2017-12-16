@@ -1,4 +1,4 @@
-import { BrowserWindow, globalShortcut, webContents } from "electron";
+import { BrowserWindow, globalShortcut, nativeImage, webContents } from "electron";
 /**
  * 基本的electron窗口封装，统一使用透明无
  * 边界的窗口，统一管理窗口组
@@ -51,6 +51,9 @@ export abstract class TheNextToolsBase {
       }
       this.registerShortcut();
     });
+  }
+  public set IcoPath(path: string) {
+    this.mainWindow.setIcon(nativeImage.createFromPath(path));
   }
   /**
    * 获取窗口的webcontents对象，用于判断窗口

@@ -18,6 +18,7 @@ export class TheNextTimerSetter extends TheNextToolsBase {
         this.onDataGetFun(data);
       }
     });
+    this.IcoPath = "../../../img/png/timerSetterIco.png";
   }
   /**
    * 设置收到数据的回调函数

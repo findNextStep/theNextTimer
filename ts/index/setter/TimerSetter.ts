@@ -34,6 +34,7 @@ class TimerSetter extends TheNextWindow {
         this.submit();
       };
       this.appendChild(nameP);
+      this.centerIt();
     });
     // 重新定义位置保证窗口变化时，div始终在中心
     // When the location guarantee window is

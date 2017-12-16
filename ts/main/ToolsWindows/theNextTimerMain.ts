@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcRenderer, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import { ConfigReader } from "../configReader";
 import { TheNextTimer } from "./theNextTimer";
 import { TheNextTimerSetter } from "./theNextTimerSetter";
@@ -58,7 +58,7 @@ export class TheNextTimerMain extends TheNextToolsBase {
     });
     // 注册启动计时器的快捷键
     // register shortcut for start a timer
-    this.registerOneShortcut(this.configReader.getConfig("addTimer", "super+ctrl+t"), () => {
+    this.registerOneShortcut(this.configReader.getConfig("addTimer", "super+ctrl+y"), () => {
       const newSetter = new TheNextTimerSetter();
       this.windowList.push(newSetter);
       newSetter.onClose = () => {
@@ -75,11 +75,39 @@ export class TheNextTimerMain extends TheNextToolsBase {
           newTimer.webContents.send("setTime", data[0], data[1], data[2]);
         });
       };
-      console.log("test");
       ipcMain.once("ready", () => {
         newSetter.webContents.send("getRequire", "小时", 12, 0, 0);
         newSetter.webContents.send("getRequire", "分", 60, 0, 50);
         newSetter.webContents.send("getRequire", "秒", 60, 0, 0);
+      });
+    });
+    this.registerOneShortcut(this.configReader.getConfig("addDeadlineTimer", "super+ctrl+t"), () => {
+      console.log("test");
+      const newSetter = new TheNextTimerSetter();
+      this.windowList.push(newSetter);
+      newSetter.onClose = () => {
+        this.windowList.splice(this.windowList.indexOf(newSetter));
+      };
+      newSetter.onDataGet = (data: number[]) => {
+        newSetter.close();
+        const newTimer = new TheNextTimer();
+        this.windowList.push(newTimer);
+        newTimer.onClose = () => {
+          this.windowList.splice(this.windowList.indexOf(newTimer));
+        };
+        newTimer.webContents.on("dom-ready", () => {
+          const now = new Date();
+          newTimer.webContents.send("setTime",
+            data[0] - now.getHours(),
+            data[1] - now.getMinutes(),
+            data[2] - now.getSeconds());
+        });
+      };
+      ipcMain.once("ready", () => {
+        const now = new Date();
+        newSetter.webContents.send("getRequire", ":", 24, 0, now.getHours());
+        newSetter.webContents.send("getRequire", ":", 60, 0, now.getMinutes());
+        newSetter.webContents.send("getRequire", "", 60, 0, now.getSeconds());
       });
     });
     this.mainWindow.removeAllListeners();
