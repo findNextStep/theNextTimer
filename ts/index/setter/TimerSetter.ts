@@ -1,7 +1,8 @@
-const electron = require("electron");
-const ipcRenderer = electron.ipcRenderer;
+import { ipcRenderer } from "electron";
+import { TheNextWindow } from "../theNextHTMLInterface";
+import { TheNextInputNumber } from "../theNextInputNumber";
 
-class TimerSetter extends TheNextWindow {
+export class TimerSetter extends TheNextWindow {
   private numbers: TheNextInputNumber[];
   private name: HTMLParagraphElement[];
   /**

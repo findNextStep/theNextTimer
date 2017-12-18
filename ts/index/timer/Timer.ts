@@ -1,6 +1,4 @@
-
-
-interface ITimer {
+export interface ITimer {
   /**
    * 使计时器启动
    * let the timer start
@@ -38,7 +36,7 @@ interface ITimer {
    */
   setTime(startTime: Date, contain: number | Date): void;
 }
-abstract class TimerBase implements ITimer {
+export abstract class TimerBase implements ITimer {
   /**
    * get now time value
    * @returns number

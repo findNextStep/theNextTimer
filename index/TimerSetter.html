@@ -2,14 +2,13 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="css/setter_style.css" />
-    <script type="text/javascript" src="../ts_out/index/theNextHTMLInterface.js"></script>
-    <script type="text/javascript" src="../ts_out/index/theNextInputNumber.js"></script>
-    <script type="text/javascript" src="../ts_out/index/setter/TimerSetter.js"></script>
     <meta charset="UTF-8">
 </head>
 <script>
     window.onload = () => {
-        var setter = new TimerSetter();
+        const TimerSetter = require("../ts_out/index/setter/TimerSetter.js");
+        var setter = new TimerSetter.TimerSetter();
+        console.log(TimerSetter);   
         const electron = require('electron');
         const ipc  =electron.ipcRenderer;
         ipc.send("ready");

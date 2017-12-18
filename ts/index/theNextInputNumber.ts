@@ -1,3 +1,4 @@
+import { TheNextInput } from "./theNextHTMLInterface";
 interface ITheNextInputNumberInitOption {
   /**
    * 输入框最大值
@@ -28,7 +29,7 @@ interface ITheNextInputNumberInitOption {
  * @extends {TheNextInput}
  * @requires theNextHTMLInterface
  */
-class TheNextInputNumber implements TheNextInput {
+export class TheNextInputNumber implements TheNextInput {
   private numberInput: HTMLInputElement;
   private maxNumber: number;
   private minNumber: number;

@@ -1,4 +1,6 @@
-class PieTimerSvg extends TimerBase {
+import { TimerBase } from "./Timer";
+
+export class PieTimerSvg extends TimerBase {
   private static r: number = 100;
   private color: string;
   private svg: SVGSVGElement;

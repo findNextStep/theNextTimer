@@ -2,14 +2,13 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="css/clock_style.css" />
-    <script type="text/javascript" src="../ts_out/index/timer/Timer.js"></script>
-    <script type="text/javascript" src="../ts_out/index/timer/PieTimer.js"></script>
 </head>
 
 <body>
     <script>
+        const timer = require("../ts_out/index/timer/PieTimer.js")
         const ipc = require("electron").ipcRenderer;
-        var clock = new PieTimer(new Date(), 1000 * 60 * 60, document.body);
+        var clock = new timer.PieTimer(new Date(), 1000 * 60 * 60, document.body);
         clock.start();
         ipc.on("setTime", (event, hour, mintue, second) => {
             clock.setTime(new Date, ((hour * 60 + mintue) * 60 + second) * 1000);

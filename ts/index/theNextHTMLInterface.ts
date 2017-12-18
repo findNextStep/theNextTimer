@@ -1,4 +1,4 @@
-abstract class TheNextUI {
+export abstract class TheNextUI {
   /**
    * 获取ui控件本体
    * Getting the UI control Ontology
@@ -11,7 +11,7 @@ abstract class TheNextUI {
 }
 
 // tslint:disable-next-line:max-classes-per-file
-abstract class TheNextWindow extends TheNextUI {
+export abstract class TheNextWindow extends TheNextUI {
   protected mainContainer: HTMLDivElement;
   constructor() {
     super();
@@ -60,7 +60,7 @@ abstract class TheNextWindow extends TheNextUI {
 }
 
 // tslint:disable-next-line:max-classes-per-file
-abstract class TheNextInput extends TheNextUI {
+export abstract class TheNextInput extends TheNextUI {
   /**
    * 获取输入框本体
    * Get the input box Ontology

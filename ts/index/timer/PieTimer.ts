@@ -1,4 +1,6 @@
-class PieTimer extends TimerBase {
+import { TimerBase } from "./Timer";
+
+export class PieTimer extends TimerBase {
   private pieTimer: HTMLCanvasElement;
   private color: string;
   constructor(startTime: Date, contain: number, parent: HTMLElement) {
