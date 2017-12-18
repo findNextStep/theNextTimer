@@ -1,6 +1,5 @@
 import { ConfigReader } from "../configReader";
 import { TheNextToolsBase } from "./theNextToolsBase";
-// import * as the_next from "./theNextToolsBase"
 
 /**
  * 简易的计时窗口

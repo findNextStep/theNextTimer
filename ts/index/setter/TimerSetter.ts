@@ -17,11 +17,7 @@ export class TimerSetter extends TheNextWindow {
     this.container.style.position = "absolute";
     this.numbers = [];
     this.name = [];
-    const hours: HTMLParagraphElement = document.createElement("p");
-    const minute: HTMLParagraphElement = document.createElement("p");
-    const second: HTMLParagraphElement = document.createElement("p");
     ipcRenderer.on("getRequire", (event, name: string, maxNumber?: number, minNumber?: number, defaul?: number) => {
-      console.log(name);
       const nameP: HTMLParagraphElement = document.createElement("p");
       nameP.innerText = name;
       const input: TheNextInputNumber = new TheNextInputNumber({
@@ -57,12 +53,10 @@ export class TimerSetter extends TheNextWindow {
   }
 
   protected submit(): void {
-    console.log("wait for submit code");
     const data: number[] = [];
     for (const input of this.numbers) {
       data.push(input.innerNumber);
     }
-    console.log(data);
     ipcRenderer.send("getTime", data);
   }
 }

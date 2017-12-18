@@ -119,7 +119,6 @@ export abstract class TheNextToolsBase {
     this.shortCut[key] = fun;
     // if window is focused
     if (this.isFocused()) {
-      // console.log(key);
       this.registerShortcut();
     }
   }
@@ -147,7 +146,6 @@ export abstract class TheNextToolsBase {
   private registerShortcut(): void {
     for (const name in this.shortCut) {
       if (this.shortCut[name] != null) {
-        // console.log(name);
         globalShortcut.register(name, this.shortCut[name]);
       }
     }

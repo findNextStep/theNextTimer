@@ -130,7 +130,6 @@ export class TheNextInputNumber implements TheNextInput {
    * @memberof TheNextInputNumber
    */
   public set number(num: number) {
-    console.log(num);
     this.numberInput.value = num.toString();
   }
   /**

@@ -82,7 +82,6 @@ export class TheNextTimerMain extends TheNextToolsBase {
       });
     });
     this.registerOneShortcut(this.configReader.getConfig("addDeadlineTimer", "super+ctrl+t"), () => {
-      console.log("test");
       const newSetter = new TheNextTimerSetter();
       this.windowList.push(newSetter);
       newSetter.onClose = () => {
