@@ -1,5 +1,5 @@
 import { TheNextInput } from "./theNextHTMLInterface";
-interface ITheNextInputNumberInitOption {
+export interface ITheNextInputNumberInitOption {
   /**
    * 输入框最大值
    * maximun value can be input

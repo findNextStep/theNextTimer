@@ -6,6 +6,22 @@
 
 ![app preview](markdowImg/2017-12-05-18-36-42.png)
 
+# 使用方法
+
+启动后使用快捷键`super+ctrl+y`启动一个持续时间设置器
+
+![](markdowImg/2017-12-19-09-58-11.png)
+
+设置运行持续时间之后会出现一个计时圆盘
+
+![](markdowImg/2017-12-19-09-59-16.png)
+
+也可以通过快捷键`super+ctrl+t`设置计时的结束时间
+
+通过快捷键`super+ctrl+q`退出程序
+
+可以通过修改用户文件夹下的`\the_next_app_config\theNextMain.json`实现快捷键的更改
+
 ## 环境需要
 
 开发环境为`node -v v6.11.2`,使用`electron`构建GUI并使用`typesctipt`构建程序代码

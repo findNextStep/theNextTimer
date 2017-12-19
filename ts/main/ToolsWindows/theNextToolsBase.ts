@@ -1,4 +1,5 @@
 import { BrowserWindow, globalShortcut, nativeImage, webContents } from "electron";
+import { existsSync } from "fs";
 /**
  * 基本的electron窗口封装，统一使用透明无
  * 边界的窗口，统一管理窗口组
@@ -20,8 +21,16 @@ export abstract class TheNextToolsBase {
    * Creates an instance of theNextToolsBase.
    * @memberof theNextToolsBase
    */
-  constructor() {
+  constructor(icoPath?: string | nativeImage) {
     this.shortCut = {};
+    if (icoPath == null) {
+      icoPath = __dirname + "/../../../img/png/ico.png";
+      if (!existsSync(icoPath)) {
+        console.log("nonononono");
+      }
+      console.log(icoPath);
+      icoPath = nativeImage.createFromPath(icoPath);
+    }
     // 窗口的简单设置
     // simple setting about the main window
     this.mainWindow = new BrowserWindow({
@@ -29,6 +38,7 @@ export abstract class TheNextToolsBase {
       // make background transparent
       backgroundColor: "#0000",
       frame: false,
+      icon: icoPath,
       resizable: false,
       // 消解窗口边界
       // disable the border of the window
