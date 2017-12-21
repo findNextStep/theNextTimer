@@ -32,7 +32,7 @@ export class ConfigReader {
       writeFileSync(this.filePath, JSON.stringify(this.json, null, 2).toString());
     }
   }
-  public getConfig(name: string, Default?: string) {
+  public getConfig(name: string, Default?: any) {
     if (this.json[name] != null) {
       return this.json[name];
     } else if (Default != null) {
