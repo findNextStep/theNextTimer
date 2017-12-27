@@ -6,8 +6,29 @@ import { ItheNextTask } from "./theNextTaskInterface";
  * @implements {ItheNextTask}
  */
 export class TheNextOnceTask implements ItheNextTask {
+    /**
+     * 任务的启动时间
+     *
+     * @private
+     * @type {Date}
+     * @memberof TheNextOnceTask
+     */
     private startTime: Date;
+    /**
+     * 任务的结束时间
+     *
+     * @private
+     * @type {Date}
+     * @memberof TheNextOnceTask
+     */
     private endTime: Date;
+    /**
+     * 任务细节描述
+     *
+     * @private
+     * @type {string}
+     * @memberof TheNextOnceTask
+     */
     private Describe: string;
     constructor(startTime: Date, endTime: Date) {
         this.startTime = startTime;
@@ -15,6 +36,9 @@ export class TheNextOnceTask implements ItheNextTask {
     }
     public getStartTime() {
         return this.startTime;
+    }
+    public getEndTime(): Date {
+        return this.endTime;
     }
     public getDayWork(day: Date): ItheNextTask[] {
         const result: ItheNextTask[] = [];
@@ -25,6 +49,11 @@ export class TheNextOnceTask implements ItheNextTask {
     }
     public getDescribe(): string {
         return this.Describe;
+    }
+    public getAllWork() {
+        const array = [];
+        array.push(this);
+        return array;
     }
     /**
      * 设置任务对象的细节描述
