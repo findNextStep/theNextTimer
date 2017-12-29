@@ -1,4 +1,4 @@
-import { ItheNextTask } from "./theNextTaskInterface";
+import { ItaskDescritbe, ItheNextTask } from "./theNextTaskInterface";
 /**
  * 一个一次性任务的描述
  *
@@ -26,10 +26,10 @@ export class TheNextOnceTask implements ItheNextTask {
      * 任务细节描述
      *
      * @private
-     * @type {string}
+     * @type {ItaskDescritbe}
      * @memberof TheNextOnceTask
      */
-    private Describe: string;
+    private Describe: ItaskDescritbe;
     constructor(startTime: Date, endTime: Date) {
         this.startTime = startTime;
         this.endTime = endTime;
@@ -47,7 +47,7 @@ export class TheNextOnceTask implements ItheNextTask {
         }
         return result;
     }
-    public getDescribe(): string {
+    public getDescribe() {
         return this.Describe;
     }
     public getAllWork() {
@@ -60,7 +60,7 @@ export class TheNextOnceTask implements ItheNextTask {
      *
      * @memberof TheNextOnceTask
      */
-    public set describe(describe: string) {
+    public set describe(describe: ItaskDescritbe) {
         this.Describe = describe;
     }
 }

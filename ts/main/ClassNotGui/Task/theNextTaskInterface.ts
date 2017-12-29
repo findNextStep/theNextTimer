@@ -16,10 +16,10 @@ export interface ItheNextTask {
     /**
      * 获取任务对象描述
      *
-     * @returns {string} 任务细节描述
+     * @returns {ItaskDescribe} 任务细节描述
      * @memberof ItheNextTask
      */
-    getDescribe(): string;
+    getDescribe(): ItaskDescritbe;
     /**
      * 获取任务在某一天的任务
      *
@@ -36,6 +36,20 @@ export interface ItheNextTask {
      */
     getAllWork(): TheNextOnceTask[];
 }
+export interface ItaskDescritbe {
+    /**
+     * 任务描述
+     */
+    taskContent: string;
+    /**
+     * 任务参与者
+     */
+    joiner?: string[];
+    /**
+     * 任务发生的地方
+     */
+    place?: string;
+}
 /**
  * 判断两个任务是否有冲突
  *
@@ -43,7 +57,7 @@ export interface ItheNextTask {
  * @param {ItheNextTask} task2 待比较的第二个任务
  * @returns {boolean} 是否有冲突
  */
-function TaskConflict(task1: ItheNextTask, task2: ItheNextTask): boolean {
+export function TaskConflict(task1: ItheNextTask, task2: ItheNextTask): boolean {
     for (const taskelement1 of task1.getAllWork()) {
         for (const taskelement2 of task2.getAllWork()) {
             if (taskelement1.getStartTime().getTime() < taskelement2.getEndTime().getTime()) {

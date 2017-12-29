@@ -1,14 +1,20 @@
 import { TheNextOnceTask } from "./theNextOnceTask";
-import { ItheNextTask } from "./theNextTaskInterface";
+import { ItaskDescritbe, ItheNextTask } from "./theNextTaskInterface";
 
 class TheNextWeekTask implements ItheNextTask {
     /**
      * 记录一个星期中有事情的日子
      */
     private weekForWrok: boolean[];
+    /**
+     * 记录事件的开始日期和开始时间
+     */
     private startTime: Date;
+    /**
+     * 记录事件的结束日期和结束时间
+     */
     private endTime: Date;
-    private describe: string;
+    private describe: ItaskDescritbe;
     constructor() {
         this.weekForWrok = [];
         this.weekForWrok.length = 7;
@@ -30,13 +36,32 @@ class TheNextWeekTask implements ItheNextTask {
                     newDay.setTime(newDay.getTime() + 1000 * 60 * 60 * 24);
                 }
                 while (newDay.getTime() < this.endTime.getTime()) {
-                    const task: TheNextOnceTask = new TheNextOnceTask(newDay, null);
+                    const endTime: Date = new Date();
+                    endTime.setTime(newDay.getTime());
+                    endTime.setHours(newDay.getHours());
+                    endTime.setMinutes(newDay.getMinutes());
+                    endTime.setSeconds(newDay.getSeconds());
+                    const task: TheNextOnceTask = new TheNextOnceTask(newDay, endTime);
+                    task.describe = this.describe;
+                    AllWork.push(task);
                 }
             }
         }
-        return null;
+        return AllWork;
     }
     public getDayWork(day: Date) {
-        return null;
+        const AllWork: TheNextOnceTask[] = [];
+        if (this.weekForWrok[day.getDay()]) {
+            const startTime = new Date();
+            startTime.setTime(this.getStartTime().getTime());
+            startTime.setFullYear(day.getFullYear(), day.getMonth(), day.getDate());
+            const endTime = new Date();
+            endTime.setTime(this.endTime.getTime());
+            endTime.setFullYear(day.getFullYear(), day.getMonth(), day.getDate());
+            const work: TheNextOnceTask = new TheNextOnceTask(startTime, endTime);
+            work.describe = this.describe;
+            AllWork.push(work);
+        }
+        return AllWork;
     }
 }
