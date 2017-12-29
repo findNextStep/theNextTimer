@@ -10,11 +10,20 @@
         const ipc = require("electron").ipcRenderer;
         var clock = new timer.PieTimer(new Date(), 1000 * 60 * 60, document.body);
         clock.start();
-        ipc.on("setTime", (event, hour, mintue, second) => {
-            clock.setTime(new Date, ((hour * 60 + mintue) * 60 + second) * 1000);
+        ipc.on("setContainTime", (event, hour, minute, second) => {
+            clock.setTime(new Date, ((hour * 60 + minute) * 60 + second) * 1000);
             clock.stop();
             clock.start();
         });
+        ipc.on("setTime", (event, startHour, startMinute, startSecond, endHour, endMinute, endSecond) => {
+            let startTime = new Date();
+            startTime.setHours(startHour);
+            startTime.setMinutes(startMinute);
+            startTime.setSeconds(startSecond);
+            clock.setTime(startTime, (((endHour - startHour) * 60 + (endMinute - startMinute)) * 60 + (endSecond - startSecond)) * 1000);
+            clock.stop();
+            clock.start();
+        })
     </script>
 </body>
 

@@ -42,7 +42,7 @@ export abstract class TimerBase implements ITimer {
    * @returns number
    */
   public static getNowTime(): number {
-    return new Date().valueOf();
+    return new Date().getTime();
   }
   protected startTime: number;
   protected containTime: number;
@@ -78,6 +78,7 @@ export abstract class TimerBase implements ITimer {
   public stop(): void {
     clearInterval(this.timer);
     this.isRunning = false;
+    this.setProgtessByNow();
   }
   public pause(): boolean {
     if (this.isRunning) {

@@ -72,7 +72,7 @@ export class TheNextTimerMain extends TheNextToolsBase {
           this.windowList.splice(this.windowList.indexOf(newTimer));
         };
         newTimer.webContents.on("dom-ready", () => {
-          newTimer.webContents.send("setTime", data[0], data[1], data[2]);
+          newTimer.webContents.send("setContainTime", data[0], data[1], data[2]);
         });
       };
       ipcMain.once("ready", () => {
@@ -97,16 +97,17 @@ export class TheNextTimerMain extends TheNextToolsBase {
         newTimer.webContents.on("dom-ready", () => {
           const now = new Date();
           newTimer.webContents.send("setTime",
-            data[0] - now.getHours(),
-            data[1] - now.getMinutes(),
-            data[2] - now.getSeconds());
+            data[0], data[1], data[2], data[3], data[4], data[5]);
         });
       };
       ipcMain.once("ready", () => {
-        const now = new Date();
-        newSetter.webContents.send("getRequire", ":", 24, 0, now.getHours());
-        newSetter.webContents.send("getRequire", ":", 60, 0, now.getMinutes());
-        newSetter.webContents.send("getRequire", "", 60, 0, now.getSeconds());
+        const now: Date = new Date();
+        newSetter.webContents.send("getRequire", "小时", 24, 0, now.getHours());
+        newSetter.webContents.send("getRequire", "分", 60, 0, now.getMinutes());
+        newSetter.webContents.send("getRequire", "秒 → ", 60, 0, now.getSeconds());
+        newSetter.webContents.send("getRequire", "小时", 24, 0, now.getHours());
+        newSetter.webContents.send("getRequire", "分", 60, 0, now.getMinutes());
+        newSetter.webContents.send("getRequire", "秒", 60, 0, now.getSeconds());
       });
     });
     this.mainWindow.removeAllListeners();
