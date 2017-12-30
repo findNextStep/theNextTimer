@@ -36,3 +36,19 @@
   - [ ] 事件地点
 
 应用图标下载自`icofont`[作者](http://www.iconfont.cn/user/detail?spm=a313x.7781069.0.d214f71f6&uid=72502)
+
+# 默认操作
+
+使用`ctrl+super+t`创建一个计时器
+
+`ctrl+super+y`创建一个秒表
+
+![](markdowImg/2017-12-30-10-15-44.png)
+
+按回车即可创建一个简单计时器
+
+![](markdowImg/2017-12-30-10-16-18.png)
+
+使用`ctrl+super+q`关闭软件
+
+可以在用户目录下的`\the_next_app_config`文件夹中修改详细配置

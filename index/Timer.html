@@ -20,7 +20,11 @@
             startTime.setHours(startHour);
             startTime.setMinutes(startMinute);
             startTime.setSeconds(startSecond);
-            clock.setTime(startTime, (((endHour - startHour) * 60 + (endMinute - startMinute)) * 60 + (endSecond - startSecond)) * 1000);
+            let endTime = new Date();
+            endTime.setHours(endHour);
+            endTime.setMinutes(endMinute);
+            endTime.setSeconds(endSecond);
+            clock.setTime(startTime,endTime);
             clock.stop();
             clock.start();
         })
