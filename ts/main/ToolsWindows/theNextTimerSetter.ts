@@ -2,11 +2,14 @@ import { ipcMain } from "electron";
 import { TheNextToolsBase } from "./theNextToolsBase";
 
 export class TheNextTimerSetter extends TheNextToolsBase {
-  private onDataGetFun: (data: number[]) => void;
+  private static onDataGetFun: (data: number[]) => void;
   constructor() {
     super();
     this.mainWindow.setFullScreen(true);
     this.mainWindow.loadURL(__dirname + "/../../../index/TimerSetter.html");
+    this.mainWindow.webContents.on("destroyed", () => {
+      TheNextTimerSetter.onDataGetFun = () => {return; };
+    });
     this.registerOneShortcut("ctrl+e", () => {
       if (this.isFocused()) {
         console.log("debug on");
@@ -14,8 +17,8 @@ export class TheNextTimerSetter extends TheNextToolsBase {
       }
     });
     ipcMain.once("getTime", (event, data: number[]) => {
-      if (this.onDataGetFun != null) {
-        this.onDataGetFun(data);
+      if (TheNextTimerSetter.onDataGetFun != null) {
+        TheNextTimerSetter.onDataGetFun(data);
       }
     });
     this.IcoPath = "../../../img/png/timerSetterIco.png";
@@ -26,6 +29,6 @@ export class TheNextTimerSetter extends TheNextToolsBase {
    * @memberof TheNextTimerSetter
    */
   public set onDataGet(fun: (data: number[]) => void) {
-    this.onDataGetFun = fun;
+    TheNextTimerSetter.onDataGetFun = fun;
   }
 }

@@ -80,6 +80,7 @@ export class TheNextTimerMain extends TheNextToolsBase {
         newSetter.webContents.send("getRequire", "分", 60, 0, 50);
         newSetter.webContents.send("getRequire", "秒", 60, 0, 0);
       });
+      newSetter.onDataGet = () => { return; };
     });
     this.registerOneShortcut(this.configReader.getConfig("addDeadlineTimer", "super+ctrl+t"), () => {
       const newSetter = new TheNextTimerSetter();
@@ -99,6 +100,7 @@ export class TheNextTimerMain extends TheNextToolsBase {
           newTimer.webContents.send("setTime",
             data[0], data[1], data[2], data[3], data[4], data[5]);
         });
+        newSetter.onDataGet = () => { return; };
       };
       ipcMain.once("ready", () => {
         const now: Date = new Date();
