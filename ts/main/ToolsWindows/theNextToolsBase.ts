@@ -61,6 +61,10 @@ export abstract class TheNextToolsBase {
       }
       this.registerShortcut();
     });
+    this.registerOneShortcut("j", () => { this.moveUp(1); });
+    this.registerOneShortcut("k", () => { this.moveDown(1); });
+    this.registerOneShortcut("h", () => { this.moveLeft(1); });
+    this.registerOneShortcut("l", () => { this.moveRight(1); });
   }
   public set IcoPath(path: string) {
     this.mainWindow.setIcon(nativeImage.createFromPath(path));
@@ -73,6 +77,40 @@ export abstract class TheNextToolsBase {
    */
   public get webContents(): webContents {
     return this.mainWindow.webContents;
+  }
+
+  /**
+   * 移动窗口向上
+   * @param  {number} times 移动量
+   * @returns void
+   */
+  public moveUp(times: number): void {
+    this.mainWindow.setPosition(this.mainWindow.getPosition()[0], this.mainWindow.getPosition()[1] - times);
+  }
+
+  /**
+   * 移动窗口向下
+   * @param  {number} times 移动量
+   * @returns void
+   */
+  public moveDown(times: number): void {
+    this.mainWindow.setPosition(this.mainWindow.getPosition()[0], this.mainWindow.getPosition()[1] + times);
+  }
+
+  /**
+   * 移动窗口向左
+   * @param  {number} times 移动量
+   * @returns void
+   */
+  public moveLeft(times: number): void {
+    this.mainWindow.setPosition(this.mainWindow.getPosition()[0] - times, this.mainWindow.getPosition()[1]);
+  }
+  /**
+   * 移动窗口向右
+   * @param times 移动量
+   */
+  public moveRight(times: number): void {
+    this.mainWindow.setPosition(this.mainWindow.getPosition()[0] + times, this.mainWindow.getPosition()[1]);
   }
   /**
    * 判断窗口是否被锁定，用于快捷键解绑判断
