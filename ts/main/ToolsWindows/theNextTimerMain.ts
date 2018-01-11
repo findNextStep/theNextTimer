@@ -37,6 +37,7 @@ export class TheNextTimerMain extends TheNextToolsBase {
    */
   constructor() {
     super();
+    this.setCanMoveInVim(false);
     this.windowList = [];
     this.mainWindow.setSize(1, 1);
     // 这个窗口用于保持快捷键，大多数时间不显示

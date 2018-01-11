@@ -15,14 +15,14 @@ import { existsSync } from "fs";
 export abstract class TheNextToolsBase {
   protected mainWindow: BrowserWindow;
   protected onCloseFun: () => void;
-  private shortCut: { [key: string]: () => void };
+  private shortCut: Array<() => void>;
   /**
    * 创建一个简单的the_next工具窗口
    * Creates an instance of theNextToolsBase.
    * @memberof theNextToolsBase
    */
   constructor(icoPath?: string | nativeImage) {
-    this.shortCut = {};
+    this.shortCut = new Array<() => void>();
     if (icoPath == null) {
       icoPath = __dirname + "/../../../img/png/ico.png";
       if (!existsSync(icoPath)) {
@@ -61,13 +61,31 @@ export abstract class TheNextToolsBase {
       }
       this.registerShortcut();
     });
-    this.registerOneShortcut("j", () => { this.moveUp(1); });
-    this.registerOneShortcut("k", () => { this.moveDown(1); });
-    this.registerOneShortcut("h", () => { this.moveLeft(1); });
-    this.registerOneShortcut("l", () => { this.moveRight(1); });
+    this.setCanMoveInVim(true);
   }
   public set IcoPath(path: string) {
     this.mainWindow.setIcon(nativeImage.createFromPath(path));
+  }
+  public setCanMoveInVim(can: boolean): void {
+    if (can) {
+      this.registerOneShortcut("h", () => { this.moveLeft(1); });
+      this.registerOneShortcut("j", () => { this.moveUp(1); });
+      this.registerOneShortcut("k", () => { this.moveDown(1); });
+      this.registerOneShortcut("l", () => { this.moveRight(1); });
+      this.registerOneShortcut("shift+h", () => { this.moveLeft(10); });
+      this.registerOneShortcut("shift+j", () => { this.moveUp(10); });
+      this.registerOneShortcut("shift+k", () => { this.moveDown(10); });
+      this.registerOneShortcut("shift+l", () => { this.moveRight(10); });
+    } else {
+      this.unregisterOneShortcut("h");
+      this.unregisterOneShortcut("j");
+      this.unregisterOneShortcut("k");
+      this.unregisterOneShortcut("l");
+      this.unregisterOneShortcut("shift+h");
+      this.unregisterOneShortcut("shift+j");
+      this.unregisterOneShortcut("shift+k");
+      this.unregisterOneShortcut("shift+l");
+    }
   }
   /**
    * 获取窗口的webcontents对象，用于判断窗口
@@ -166,6 +184,19 @@ export abstract class TheNextToolsBase {
     this.UnregisterAllShortcut();
     this.shortCut[key] = fun;
     // if window is focused
+    if (this.isFocused()) {
+      this.registerShortcut();
+    }
+  }
+  protected unregisterOneShortcut(key: string): void {
+    this.UnregisterAllShortcut();
+    const tmpShortCut = this.shortCut;
+    this.shortCut = new Array<() => void>();
+    for (const name in this.shortCut) {
+      if (name !== key) {
+        this.shortCut[name] = tmpShortCut[name];
+      }
+    }
     if (this.isFocused()) {
       this.registerShortcut();
     }

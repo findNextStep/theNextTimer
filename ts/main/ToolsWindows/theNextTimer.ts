@@ -22,6 +22,7 @@ export class TheNextTimer extends TheNextToolsBase {
     this.mainWindow.setResizable(false);
     this.mainWindow.setFullScreenable(false);
     this.mainWindow.setMaximizable(false);
+    this.mainWindow.setSkipTaskbar(true);
     // 使窗口始终置顶
     // make the window always on top
     // 在一些窗口管理器中也许你需要将"* float"加入
