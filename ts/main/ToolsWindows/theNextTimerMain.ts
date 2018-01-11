@@ -75,13 +75,13 @@ export class TheNextTimerMain extends TheNextToolsBase {
         newTimer.webContents.on("dom-ready", () => {
           newTimer.webContents.send("setContainTime", data[0], data[1], data[2]);
         });
+        newSetter.onDataGet = () => { return; };
       };
       ipcMain.once("ready", () => {
         newSetter.webContents.send("getRequire", "小时", 12, 0, 0);
         newSetter.webContents.send("getRequire", "分", 60, 0, 50);
         newSetter.webContents.send("getRequire", "秒", 60, 0, 0);
       });
-      newSetter.onDataGet = () => { return; };
     });
     this.registerOneShortcut(this.configReader.getConfig("addDeadlineTimer", "super+ctrl+t"), () => {
       const newSetter = new TheNextTimerSetter();
