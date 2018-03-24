@@ -7,7 +7,7 @@ export class TheNextTimerSetter extends TheNextToolsBase {
     super();
     this.setCanMoveInVim(false);
     this.mainWindow.setFullScreen(true);
-    this.mainWindow.loadURL(__dirname + "/../../../index/TimerSetter.html");
+    this.mainWindow.loadURL("file://" + __dirname + "/../../../index/TimerSetter.html");
     this.mainWindow.webContents.on("destroyed", () => {
       TheNextTimerSetter.onDataGetFun = () => {return; };
     });
